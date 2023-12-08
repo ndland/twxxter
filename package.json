@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "debug": "NODE_OPTIONS='--inspect' next dev"
   },
   "dependencies": {
     "next": "14.0.3",
