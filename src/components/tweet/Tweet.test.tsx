@@ -1,6 +1,7 @@
 import React from "react";
 import { RenderResult, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import userEvent from "@testing-library/user-event";
 import Tweet from "./Tweet";
 
 describe("Tweet", () => {
@@ -52,5 +53,23 @@ describe("Tweet", () => {
   it("should have a button with the text Tweet", () => {
     const button = screen.getByText("Tweet");
     expect(button).toBeInTheDocument();
+  });
+
+  describe('when the user clicks the "Tweet" button', () => {
+    const user = userEvent.setup();
+
+    it(`should display the tweet after clicking the 'Tweet' button `, async () => {
+      const input = screen.getByPlaceholderText("What's happening?");
+      const button = screen.getByText("Tweet");
+
+      await user.click(input);
+      await user.keyboard("My First Tweet");
+
+      screen.debug(input);
+
+      await user.click(button);
+
+      expect(screen.getByText("My First Tweet")).toBeInTheDocument();
+    });
   });
 });
