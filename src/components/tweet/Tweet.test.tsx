@@ -71,5 +71,14 @@ describe("Tweet", () => {
 
       expect(screen.getByText("My First Tweet")).toBeInTheDocument();
     });
+
+    it("should not display the tweet if the input is empty", async () => {
+      const button = screen.getByText("Tweet");
+
+      await user.click(button);
+      const placeholder = screen.getByPlaceholderText("Enter a twxxt");
+      expect(placeholder).toBeInTheDocument();
+      expect(placeholder).toHaveClass("placeholder:text-red-500");
+    });
   });
 });

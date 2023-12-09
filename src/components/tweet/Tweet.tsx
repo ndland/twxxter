@@ -12,8 +12,18 @@ interface TweetProps {
 const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
   const [input, setInput] = React.useState<string | undefined>(undefined);
   const [tweet, setTweet] = React.useState<string | undefined>(undefined);
+  const [placeholder, setPlaceholder] = React.useState<string | undefined>(
+    "What's happening?",
+  );
+  const [placeholderColor, setPlaceholderColor] = React.useState<string>(
+    "placeholder:text-slate-400",
+  );
 
   const handleTweet = () => {
+    if (!input) {
+      setPlaceholder("Enter a twxxt");
+      setPlaceholderColor("placeholder:text-red-500");
+    }
     setTweet(input);
   };
 
@@ -46,10 +56,10 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
           <>
             <input
               type="text"
-              placeholder="What's happening?"
+              placeholder={placeholder}
               value={tweet}
               onChange={(e) => setInput(e.target.value)}
-              className="w-full my-2 p-2 rounded-md dark:bg-slate-800 placeholder:text-slate-400 dark:text-white dark:border-2 dark:border-indigo-800"
+              className={`w-full my-2 p-2 rounded-md dark:bg-slate-800 dark:text-white dark:border-2 dark:border-indigo-800 ${placeholderColor}`}
             />
             <div className="flex justify-end">
               <button
