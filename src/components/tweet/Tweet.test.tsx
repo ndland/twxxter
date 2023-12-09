@@ -1,5 +1,5 @@
 import React from "react";
-import { RenderResult, render } from "@testing-library/react";
+import { RenderResult, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Tweet from "./Tweet";
 
@@ -10,7 +10,14 @@ describe("Tweet", () => {
   let renderResult: RenderResult;
 
   beforeEach(() => {
-    renderResult = render(<Tweet profilePic={imageUrl} content={tweet} />);
+    renderResult = render(
+      <Tweet
+        profilePic={imageUrl}
+        content={tweet}
+        username="ndland"
+        title="Tweet Title"
+      />
+    );
   });
 
   it("should render without crashing", () => {
@@ -26,5 +33,17 @@ describe("Tweet", () => {
   it("should display the content of the tweet", () => {
     const { container } = renderResult;
     expect(container).toHaveTextContent("Hello World");
+  });
+
+  it(`should display the user's username on the page`, () => {
+    const usernameElement = screen.getByLabelText("username");
+    expect(usernameElement).toBeInTheDocument();
+    expect(usernameElement).toHaveTextContent("ndland");
+  });
+
+  it("should display a tweet title", () => {
+    const title = screen.getByLabelText("title");
+    expect(title).toBeInTheDocument();
+    expect(title).toHaveTextContent("Tweet Title");
   });
 });
