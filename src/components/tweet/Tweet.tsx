@@ -3,17 +3,11 @@ import React from "react";
 
 interface TweetProps {
   profilePic: string;
-  content: string;
   username: string;
   title: string;
 }
 
-const Tweet: React.FC<TweetProps> = ({
-  profilePic,
-  content,
-  username,
-  title,
-}) => {
+const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
   return (
     <div className="dark:bg-slate-800 mx-auto m-4 max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl p-4 flex flex-row space-x-8">
       <div className="relative w-16 h-16 flex-shrink-0">
@@ -30,14 +24,23 @@ const Tweet: React.FC<TweetProps> = ({
       <div className="flex-grow">
         <div
           aria-label="username"
-          className="text-indigo-500 font-semibold md:text-lg"
+          className="text-indigo-500 font-semibold md:text-lg py-2"
         >
           @{username}
         </div>
         <div aria-label="title" className="dark:text-white font-semibold">
           {title}
         </div>
-        <div className="dark:text-white text-sm">{content}</div>
+        <input
+          type="text"
+          placeholder="What's happening?"
+          className="w-full my-2 p-2 rounded-md dark:bg-slate-800 dark:text-gray-400 dark:border-2 dark:border-indigo-800"
+        />
+        <div className="flex justify-end">
+          <button className="bg-indigo-500 text-white rounded-full px-4 py-2 mt-2">
+            Tweet
+          </button>
+        </div>
       </div>
     </div>
   );
