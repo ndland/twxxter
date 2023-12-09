@@ -11,7 +11,7 @@
     "test:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "debug": "NODE_OPTIONS='--inspect' next dev"
+    "postinstall": "husky install"
   },
   "dependencies": {
     "next": "14.0.3",
@@ -39,12 +39,17 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.6.15",
+    "husky": ">=6",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "lint-staged": "^15.2.0",
     "lorem-ipsum": "^2.0.8",
     "postcss": "^8",
     "postcss-loader": "^7.3.3",
+    "prettier": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "storybook": "^7.6.3",
     "style-loader": "^3.3.3",
     "tailwindcss": "^3.3.0",
@@ -55,5 +60,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.0.2",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "*.{js,jsx,ts,tsx,css,md}": "prettier --write"
+  }
 }
