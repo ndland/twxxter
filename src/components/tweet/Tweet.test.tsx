@@ -60,13 +60,11 @@ describe("Tweet", () => {
 
     it(`should display the tweet after clicking the 'Tweet' button `, async () => {
       const input = screen.getByPlaceholderText("What's happening?");
-      const button = screen.getByText("Tweet");
 
       await user.click(input);
       await user.keyboard("My First Tweet");
 
-      screen.debug(input);
-
+      const button = screen.getByText("Tweet");
       await user.click(button);
 
       expect(screen.getByText("My First Tweet")).toBeInTheDocument();
@@ -79,6 +77,56 @@ describe("Tweet", () => {
       const placeholder = screen.getByPlaceholderText("Enter a twxxt");
       expect(placeholder).toBeInTheDocument();
       expect(placeholder).toHaveClass("placeholder:text-red-500");
+    });
+  });
+
+  describe("liking a twxxt", () => {
+    const user = userEvent.setup();
+
+    describe("whern there is a twxxt", () => {
+      beforeEach(async () => {
+        const input = screen.getByPlaceholderText("What's happening?");
+        const button = screen.getByText("Tweet");
+
+        await user.click(input);
+        await user.keyboard("My First Tweet");
+
+        await user.click(button);
+      });
+
+      it("should display the number of likes if there are any likes on the twxxt", async () => {
+        const likeButton = screen.getByLabelText("like");
+        await user.click(likeButton);
+
+        const likes = screen.getByLabelText("likes");
+
+        expect(likes).toBeInTheDocument();
+        expect(likes).toHaveTextContent("1");
+      });
+
+      it(`should not display the likes if the like count = 0`, () => {
+        const likes = screen.queryByLabelText("likes");
+        expect(likes).not.toBeInTheDocument();
+      });
+
+      it(`should 'unlike' a twxxt if the button is clicked more than once`, async () => {
+        const likeButton = screen.getByLabelText("like");
+
+        await user.click(likeButton);
+        await user.click(likeButton);
+
+        const likes = screen.queryByLabelText("likes");
+        expect(likes).not.toBeInTheDocument();
+      });
+    });
+
+    describe("when there is not a twxxt", () => {
+      it(`should only be allowed to like a twxxt if there is a twxxt`, async () => {
+        const likeButton = screen.queryByLabelText("like");
+        const likes = screen.queryByLabelText("likes");
+        expect(likeButton).not.toBeInTheDocument();
+        expect(likes).not.toBeInTheDocument();
+      });
     });
   });
 });

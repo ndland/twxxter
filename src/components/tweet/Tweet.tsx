@@ -1,5 +1,8 @@
 "use client";
 
+import { faThumbsUp as outlineThumb } from "@fortawesome/free-regular-svg-icons";
+import { faThumbsUp as solidThumb } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React from "react";
 
@@ -18,6 +21,8 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
   const [placeholderColor, setPlaceholderColor] = React.useState<string>(
     "placeholder:text-slate-400",
   );
+  const [likes, setLikes] = React.useState<number>(0);
+  const [hasLiked, setHasLiked] = React.useState<boolean>(false);
 
   const handleTweet = () => {
     if (!input) {
@@ -25,6 +30,18 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
       setPlaceholderColor("placeholder:text-red-500");
     }
     setTweet(input);
+  };
+
+  const handleLike = () => {
+    if (hasLiked) {
+      setLikes(likes - 1);
+      setHasLiked(false);
+      return;
+    }
+    if (input && !hasLiked) {
+      setLikes(likes + 1);
+      setHasLiked(true);
+    }
   };
 
   return (
@@ -51,7 +68,34 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
           {title}
         </div>
         {tweet ? (
-          <div className="dark:text-white py-4">{tweet}</div>
+          <>
+            <div className="dark:text-white py-4">{tweet}</div>
+            <div className="flex justify-normal space-x-2 items-center">
+              {likes === 0 ? (
+                <FontAwesomeIcon
+                  aria-label="like"
+                  onClick={handleLike}
+                  className="text-white"
+                  size="xl"
+                  icon={outlineThumb}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  aria-label="like"
+                  onClick={handleLike}
+                  className="text-white"
+                  size="xl"
+                  icon={solidThumb}
+                />
+              )}
+
+              {likes !== 0 && (
+                <div aria-label="likes" className="text-gray-400">
+                  Likes: {likes}
+                </div>
+              )}
+            </div>
+          </>
         ) : (
           <>
             <input
@@ -61,10 +105,10 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
               onChange={(e) => setInput(e.target.value)}
               className={`w-full my-2 p-2 rounded-md dark:bg-slate-800 dark:text-white dark:border-2 dark:border-indigo-800 ${placeholderColor}`}
             />
-            <div className="flex justify-end">
+            <div className="flex justify-end items-center">
               <button
                 onClick={handleTweet}
-                className="bg-indigo-500 text-white rounded-full px-4 py-2 mt-2"
+                className="bg-indigo-500 text-white rounded-full px-4 py-2"
               >
                 Tweet
               </button>
