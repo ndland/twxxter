@@ -112,9 +112,16 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
               </div>
 
               {tweetTimestamp && (
-                <div aria-label="timestamp" className="text-slate-400 text-sm">
-                  {edited && <div>Edited: </div>}
-                  {tweetTimestamp}
+                <div className="flex space-x-1 items-center">
+                  {edited && (
+                    <div className="text-slate-400 text-sm">Edited:</div>
+                  )}
+                  <div
+                    aria-label="timestamp"
+                    className="text-slate-400 text-sm"
+                  >
+                    {tweetTimestamp}
+                  </div>
                 </div>
               )}
             </div>
