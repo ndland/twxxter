@@ -91,7 +91,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
                     aria-label="like"
                     onClick={handleLike}
                     className="text-white"
-                    size="xl"
+                    size="lg"
                     icon={outlineThumb}
                   />
                 ) : (
@@ -99,13 +99,13 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
                     aria-label="like"
                     onClick={handleLike}
                     className="text-white"
-                    size="xl"
+                    size="lg"
                     icon={solidThumb}
                   />
                 )}
 
                 {likes !== 0 && (
-                  <div aria-label="likes" className="text-gray-400">
+                  <div aria-label="likes" className="text-slate-400 text-sm">
                     Likes: {likes}
                   </div>
                 )}
