@@ -23,6 +23,9 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
   );
   const [likes, setLikes] = React.useState<number>(0);
   const [hasLiked, setHasLiked] = React.useState<boolean>(false);
+  const [tweetTimestamp, setTweetTimestamp] = React.useState<
+    string | undefined
+  >(undefined);
 
   const handleTweet = () => {
     if (!input) {
@@ -30,6 +33,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
       setPlaceholderColor("placeholder:text-red-500");
     }
     setTweet(input);
+    setTweetTimestamp(new Date().toLocaleString());
   };
 
   const handleLike = () => {
@@ -78,28 +82,36 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
             >
               {tweet}
             </div>
-            <div className="flex justify-normal space-x-2 items-center">
-              {likes === 0 ? (
-                <FontAwesomeIcon
-                  aria-label="like"
-                  onClick={handleLike}
-                  className="text-white"
-                  size="xl"
-                  icon={outlineThumb}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  aria-label="like"
-                  onClick={handleLike}
-                  className="text-white"
-                  size="xl"
-                  icon={solidThumb}
-                />
-              )}
+            <div className="flex justify-between">
+              <div className="flex justify-normal space-x-2 items-center">
+                {likes === 0 ? (
+                  <FontAwesomeIcon
+                    aria-label="like"
+                    onClick={handleLike}
+                    className="text-white"
+                    size="xl"
+                    icon={outlineThumb}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    aria-label="like"
+                    onClick={handleLike}
+                    className="text-white"
+                    size="xl"
+                    icon={solidThumb}
+                  />
+                )}
 
-              {likes !== 0 && (
-                <div aria-label="likes" className="text-gray-400">
-                  Likes: {likes}
+                {likes !== 0 && (
+                  <div aria-label="likes" className="text-gray-400">
+                    Likes: {likes}
+                  </div>
+                )}
+              </div>
+
+              {tweetTimestamp && (
+                <div aria-label="timestamp" className="text-slate-400 text-sm">
+                  {tweetTimestamp}
                 </div>
               )}
             </div>

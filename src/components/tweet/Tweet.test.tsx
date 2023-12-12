@@ -1,6 +1,5 @@
-import React from "react";
-import { RenderResult, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { RenderResult, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Tweet from "./Tweet";
 
@@ -164,6 +163,17 @@ describe("Tweet", () => {
 
       expect(newPlaceholder).toHaveClass("placeholder:text-slate-400");
     });
+  });
+
+  it("should display a time and date when the twxxt was created", async () => {
+    const mockDate = new Date(1466424490000);
+    global.Date = jest.fn(() => mockDate) as any & typeof global.Date;
+
+    await tweet(MY_FIRST_TWEET);
+
+    expect(screen.getByLabelText("timestamp")).toHaveTextContent(
+      mockDate.toLocaleDateString(),
+    );
   });
 });
 
