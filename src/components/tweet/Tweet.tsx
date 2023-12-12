@@ -44,6 +44,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
   };
 
   const handleTwxxtClick = () => {
+    setPlaceholderColor("placeholder:text-slate-400");
     setPlaceholder(tweet);
     setTweet(undefined);
   };

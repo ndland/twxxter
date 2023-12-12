@@ -4,10 +4,13 @@ import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import Tweet from "./Tweet";
 
+const MY_FIRST_TWEET = "My First Tweet";
+const MY_EDITED_TWEET = "My Edited Tweet";
+const user = userEvent.setup();
+
 describe("Tweet", () => {
   const imageUrl =
     "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D";
-  const tweet = "Hello World";
   let renderResult: RenderResult;
 
   beforeEach(() => {
@@ -137,43 +140,67 @@ describe("Tweet", () => {
   });
 
   describe("editing a tweet", () => {
-    const MY_FIRST_TWEET = "My First Tweet";
-    const MY_EDITED_TWEET = "My Edited Tweet";
-    const user = userEvent.setup();
-
-    beforeEach(async () => {
-      await user.click(tweetInput());
-
-      await user.keyboard(MY_FIRST_TWEET);
-
-      await user.click(tweetButton());
-    });
-
     it("should allow a user to edit their tweet", async () => {
+      await tweet(MY_FIRST_TWEET);
+
       const twxxt = screen.getByText(MY_FIRST_TWEET);
       expect(twxxt).toBeInTheDocument();
 
       await user.click(twxxt);
 
-      await user.click(tweetInput());
-
-      expect(tweetButton()).toBeInTheDocument();
-
-      await user.keyboard(MY_EDITED_TWEET);
-
-      await user.click(tweetButton());
+      await tweet(MY_EDITED_TWEET);
 
       expect(screen.getByText(MY_EDITED_TWEET)).toHaveTextContent(
         MY_EDITED_TWEET,
       );
     });
+
+    it("should reset the color of the placeholder if a user had previously tweeted", async () => {
+      await user.click(tweetButton());
+
+      const placeholder = screen.getByPlaceholderText("Enter a twxxt");
+      expect(placeholder).toHaveClass("placeholder:text-red-500");
+
+      await tweet(MY_FIRST_TWEET);
+
+      await user.click(screen.getByText(MY_FIRST_TWEET));
+      const newPlaceholder = screen.getByPlaceholderText(MY_FIRST_TWEET);
+
+      expect(newPlaceholder).toHaveClass("placeholder:text-slate-400");
+    });
   });
 });
 
+/**
+ * Helper function to get the tweet input field.
+ *
+ * @returns {HTMLElement} The HTML element of the tweet input field.
+ */
 const tweetInput = (): HTMLElement => {
   return screen.getByLabelText("tweet input");
 };
 
+/**
+ * Helper function to get the tweet button.
+ *
+ * @returns {HTMLElement} The HTML element of the tweet input field.
+ */
 const tweetButton = (): HTMLElement => {
   return screen.getByRole("button", { name: /tweet/i });
+};
+
+/**
+ * This asynchronous function simulates a user tweeting a message.
+ * It first clicks on the tweet input field, then types the tweet content,
+ * and finally clicks the tweet button to send the tweet.
+ *
+ * @param {string} tweetContent - The content of the tweet to be sent.
+ * @returns {Promise<void>} A Promise that resolves when all actions (clicking and typing) are completed.
+ */
+const tweet = async (tweetContent: string): Promise<void> => {
+  await user.click(tweetInput());
+
+  await user.keyboard(tweetContent);
+
+  await user.click(tweetButton());
 };
