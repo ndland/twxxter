@@ -26,6 +26,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
   const [tweetTimestamp, setTweetTimestamp] = React.useState<
     string | undefined
   >(undefined);
+  const [edited, setEdited] = React.useState<boolean>(false);
 
   const handleTweet = () => {
     if (!input) {
@@ -49,6 +50,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
   };
 
   const handleTwxxtClick = () => {
+    setEdited(true);
     setPlaceholderColor(placeHolderSlateGray400);
     setPlaceholder(tweet);
     setTweet(undefined);
@@ -111,6 +113,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
 
               {tweetTimestamp && (
                 <div aria-label="timestamp" className="text-slate-400 text-sm">
+                  {edited && <div>Edited: </div>}
                   {tweetTimestamp}
                 </div>
               )}

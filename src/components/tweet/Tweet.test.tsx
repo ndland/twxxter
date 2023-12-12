@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { RenderResult, render, screen } from "@testing-library/react";
+import { RenderResult, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Tweet from "./Tweet";
 
@@ -165,15 +165,30 @@ describe("Tweet", () => {
     });
   });
 
-  it("should display a time and date when the twxxt was created", async () => {
-    const mockDate = new Date(1466424490000);
-    global.Date = jest.fn(() => mockDate) as any & typeof global.Date;
+  describe("timestamps", () => {
+    it("should display a time and date when the twxxt was created", async () => {
+      const mockDate = new Date(1466424490000);
+      global.Date = jest.fn(() => mockDate) as any & typeof global.Date;
 
-    await tweet(MY_FIRST_TWEET);
+      await tweet(MY_FIRST_TWEET);
 
-    expect(screen.getByLabelText("timestamp")).toHaveTextContent(
-      mockDate.toLocaleDateString(),
-    );
+      expect(screen.getByLabelText("timestamp")).toHaveTextContent(
+        mockDate.toLocaleDateString(),
+      );
+    });
+
+    it(`should display the word 'edited' next to the time stamp if a tweet was edited`, async () => {
+      await tweet(MY_FIRST_TWEET);
+
+      const twxxt = screen.getByText(MY_FIRST_TWEET);
+      expect(twxxt).toBeInTheDocument();
+
+      await user.click(twxxt);
+
+      await tweet(MY_EDITED_TWEET);
+
+      expect(screen.getAllByText(/edited/i)[1]).toHaveTextContent("Edited:");
+    });
   });
 });
 
