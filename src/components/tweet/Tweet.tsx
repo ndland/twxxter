@@ -12,13 +12,14 @@ interface TweetProps {
 }
 
 const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
+  const placeHolderSlateGray400 = "placeholder:text-slate-400";
   const [input, setInput] = React.useState<string | undefined>(undefined);
   const [tweet, setTweet] = React.useState<string | undefined>(undefined);
   const [placeholder, setPlaceholder] = React.useState<string | undefined>(
     "What's happening?",
   );
   const [placeholderColor, setPlaceholderColor] = React.useState<string>(
-    "placeholder:text-slate-400",
+    placeHolderSlateGray400,
   );
   const [likes, setLikes] = React.useState<number>(0);
   const [hasLiked, setHasLiked] = React.useState<boolean>(false);
@@ -44,7 +45,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
   };
 
   const handleTwxxtClick = () => {
-    setPlaceholderColor("placeholder:text-slate-400");
+    setPlaceholderColor(placeHolderSlateGray400);
     setPlaceholder(tweet);
     setTweet(undefined);
   };
