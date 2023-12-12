@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  RenderResult,
-  act,
-  getByRole,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { RenderResult, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import Tweet from "./Tweet";
