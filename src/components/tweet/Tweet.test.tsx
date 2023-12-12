@@ -30,8 +30,6 @@ describe("Tweet", () => {
   });
 
   it("should display the content of the tweet", async () => {
-    const user = userEvent.setup();
-
     await user.click(tweetInput());
     await user.keyboard("Hello World");
     await user.click(tweetButton());
@@ -66,8 +64,6 @@ describe("Tweet", () => {
   });
 
   describe('when the user clicks the "Tweet" button', () => {
-    const user = userEvent.setup();
-
     it(`should display the tweet after clicking the 'Tweet' button `, async () => {
       const input = screen.getByPlaceholderText("What's happening?");
 
@@ -91,8 +87,6 @@ describe("Tweet", () => {
   });
 
   describe("liking a twxxt", () => {
-    const user = userEvent.setup();
-
     describe("whern there is a twxxt", () => {
       beforeEach(async () => {
         const input = screen.getByPlaceholderText("What's happening?");
