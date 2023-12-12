@@ -23,7 +23,9 @@ describe("Tweet", () => {
   });
 
   it("should display the users profile image on the page", () => {
-    const img = renderResult.getByAltText("Profile Picture");
+    const img = renderResult.getByAltText(
+      "Profile Picture",
+    ) as HTMLImageElement;
     expect(img.src).toContain(encodeURIComponent(imageUrl));
   });
 
