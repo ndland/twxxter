@@ -33,11 +33,14 @@ describe("Tweet", () => {
     expect(img.src).toContain(encodeURIComponent(imageUrl));
   });
 
-  /* Skip this test for now, as we're working on the
-   * input that will become the content */
-  xit("should display the content of the tweet", () => {
-    const { container } = renderResult;
-    expect(container).toHaveTextContent("Hello World");
+  it("should display the content of the tweet", async () => {
+    const user = userEvent.setup();
+
+    await user.click(tweetInput());
+    await user.keyboard("Hello World");
+    await user.click(tweetButton());
+
+    expect(screen.getByText(/hello world/i)).toBeInTheDocument();
   });
 
   it(`should display the user's username on the page`, () => {
