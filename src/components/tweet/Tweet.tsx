@@ -9,10 +9,9 @@ import React from "react";
 interface TweetProps {
   profilePic: string;
   username: string;
-  title: string;
 }
 
-const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
+const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
   const [input, setInput] = React.useState<string | undefined>(undefined);
   const [tweet, setTweet] = React.useState<string | undefined>(undefined);
   const [placeholder, setPlaceholder] = React.useState<string | undefined>(
@@ -68,9 +67,6 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
           className="text-indigo-500 font-semibold md:text-lg py-2"
         >
           @{username}
-        </div>
-        <div aria-label="title" className="dark:text-white font-semibold">
-          {title}
         </div>
         {tweet ? (
           <>
