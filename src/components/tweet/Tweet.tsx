@@ -44,6 +44,11 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
     }
   };
 
+  const handleTwxxtClick = () => {
+    setPlaceholder(tweet);
+    setTweet(undefined);
+  };
+
   return (
     <div className="dark:bg-slate-800 mx-auto m-4 max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl p-4 flex flex-row space-x-8">
       <div className="relative w-16 h-16 flex-shrink-0">
@@ -69,7 +74,12 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
         </div>
         {tweet ? (
           <>
-            <div className="dark:text-white py-4">{tweet}</div>
+            <div
+              onClick={handleTwxxtClick}
+              className="dark:text-white py-4 hover:cursor-pointer"
+            >
+              {tweet}
+            </div>
             <div className="flex justify-normal space-x-2 items-center">
               {likes === 0 ? (
                 <FontAwesomeIcon
@@ -100,6 +110,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username, title }) => {
           <>
             <input
               type="text"
+              aria-label="tweet input"
               placeholder={placeholder}
               value={tweet}
               onChange={(e) => setInput(e.target.value)}

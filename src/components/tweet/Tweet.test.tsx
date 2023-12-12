@@ -1,5 +1,12 @@
 import React from "react";
-import { RenderResult, render, screen } from "@testing-library/react";
+import {
+  RenderResult,
+  act,
+  getByRole,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import Tweet from "./Tweet";
@@ -124,9 +131,51 @@ describe("Tweet", () => {
       it(`should only be allowed to like a twxxt if there is a twxxt`, async () => {
         const likeButton = screen.queryByLabelText("like");
         const likes = screen.queryByLabelText("likes");
+
         expect(likeButton).not.toBeInTheDocument();
         expect(likes).not.toBeInTheDocument();
       });
     });
   });
+
+  describe("editing a tweet", () => {
+    const MY_FIRST_TWEET = "My First Tweet";
+    const MY_EDITED_TWEET = "My Edited Tweet";
+    const user = userEvent.setup();
+
+    beforeEach(async () => {
+      await user.click(tweetInput());
+
+      await user.keyboard(MY_FIRST_TWEET);
+
+      await user.click(tweetButton());
+    });
+
+    it("should allow a user to edit their tweet", async () => {
+      const twxxt = screen.getByText(MY_FIRST_TWEET);
+      expect(twxxt).toBeInTheDocument();
+
+      await user.click(twxxt);
+
+      await user.click(tweetInput());
+
+      expect(tweetButton()).toBeInTheDocument();
+
+      await user.keyboard(MY_EDITED_TWEET);
+
+      await user.click(tweetButton());
+
+      expect(screen.getByText(MY_EDITED_TWEET)).toHaveTextContent(
+        MY_EDITED_TWEET,
+      );
+    });
+  });
 });
+
+const tweetInput = (): HTMLElement => {
+  return screen.getByLabelText("tweet input");
+};
+
+const tweetButton = (): HTMLElement => {
+  return screen.getByRole("button", { name: /tweet/i });
+};
