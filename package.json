@@ -42,6 +42,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "chromatic": "^10.1.0",
     "css-loader": "^6.8.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8",
