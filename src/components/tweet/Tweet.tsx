@@ -57,7 +57,7 @@ const Tweet: React.FC<TweetProps> = ({ profilePic, username }) => {
   };
 
   return (
-    <div className="dark:bg-slate-800 mx-auto m-4 max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl p-4 flex flex-row space-x-8">
+    <div className="dark:bg-slate-800 mx-auto border-slate-400 border-2 max-w-md overflow-hidden bg-white shadow-md md:max-w-2xl p-4 flex flex-row space-x-8">
       <div className="relative w-16 h-16 flex-shrink-0">
         <div>
           <Image
